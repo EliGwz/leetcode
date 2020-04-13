@@ -15,17 +15,14 @@ public:
         int add = 1;
         bool carry = false;
 
-        if (digits[digits.size()-1] + add == 10) {
-            add = 1;
-            digits[digits.size() - 1] = 0;
-        } else {
-            add = 0;
-            digits[digits.size() - 1]++;
-        }
-
-
-        for (int i = digits.size()-2; i >= 0; i--) {
-            digits[i] = (digits[i] + add) % 10;
+        for (int i = digits.size()-1; i >= 0; i--) {
+            if (digits[i] + add == 10) {
+                add = 1;
+                digits[i] = 0;
+            } else {
+                digits[i] += add;
+                return digits;
+            }
         }
 
         if (add == 1) {
