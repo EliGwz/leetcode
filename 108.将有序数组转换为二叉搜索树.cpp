@@ -14,10 +14,61 @@
  *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
  * };
  */
+#include <vector>
+#include <queue>
+#include <iostream>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
 class Solution {
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        
+        TreeNode *root = nullptr;
+        if (nums.size() == 0) {
+            return root;
+        } else if (nums.size() == 1) {
+            root = new TreeNode(nums[0]);
+            return root;
+        } else if (nums.size() == 2) {
+            root = new TreeNode(nums[1]);
+            root->left = new TreeNode(nums[0]);
+            return root;
+        } else {
+            queue<tuple<TreeNode*, int, int>> q;
+            int start = 0, end = nums.size() - 1;
+            int mid = (start + end) >> 1;
+            root = new TreeNode(nums[mid]);
+            q.push(tuple<TreeNode*, int, int>(root, start, end));
+            TreeNode *p;
+            while (!q.empty()) {
+
+                
+                for (int i=0; i<q.size(); i++) {
+                    p = get<0>(q.front());
+                    start = get<1>(q.front());
+                    end = get<2>(q.front());
+                    mid = (start + end) >> 1;
+                    if (mid == start)
+
+                    p->left = new TreeNode(nums[(start+mid)>>1]);
+                    p->right = new TreeNode(nums[(mid+1+end)>>1]);
+                    q.push(tuple<TreeNode*, int, int>(p->left, start, mid));
+                    q.push(tuple<TreeNode*, int, int>(p->right, mid+1, end));
+                    q.pop();
+                }
+                
+                
+            }
+            
+        }
+
+        return nullptr;
     }
 };
 // @lc code=end
