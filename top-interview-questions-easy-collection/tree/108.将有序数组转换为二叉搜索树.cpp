@@ -19,12 +19,12 @@
 #include <iostream>
 using namespace std;
 
-struct TreeNode {
-    int val;
-    TreeNode *left;
-    TreeNode *right;
-    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
-};
+// struct TreeNode {
+//     int val;
+//     TreeNode *left;
+//     TreeNode *right;
+//     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+// };
 
 class Solution {
 public:
@@ -47,28 +47,30 @@ public:
             q.push(tuple<TreeNode*, int, int>(root, start, end));
             TreeNode *p;
             while (!q.empty()) {
-
-                
                 for (int i=0; i<q.size(); i++) {
                     p = get<0>(q.front());
                     start = get<1>(q.front());
                     end = get<2>(q.front());
-                    mid = (start + end) >> 1;
-                    if (mid == start)
+                    cout << p->val << " " << start << " " << end << endl;
 
-                    p->left = new TreeNode(nums[(start+mid)>>1]);
-                    p->right = new TreeNode(nums[(mid+1+end)>>1]);
-                    q.push(tuple<TreeNode*, int, int>(p->left, start, mid));
-                    q.push(tuple<TreeNode*, int, int>(p->right, mid+1, end));
+                    mid = (start + end) >> 1;
+                    if (start <= mid-1) {
+                        p->left = new TreeNode(nums[(start+mid-1)>>1]);
+                        q.push(tuple<TreeNode*, int, int>(p->left, start, mid-1));
+                    }
+
+                    if (mid+1 <= end) {
+                        p->right = new TreeNode(nums[(mid+1+end)>>1]);
+                        q.push(tuple<TreeNode*, int, int>(p->right, mid+1, end));   
+                    }
                     q.pop();
-                }
-                
+                }  
                 
             }
             
         }
 
-        return nullptr;
+        return root;
     }
 };
 // @lc code=end
